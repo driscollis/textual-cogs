@@ -50,6 +50,9 @@ class QuitDialog(ModalScreen[bool]):
         )
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
+        """
+        Called when the user presses a button in the QuitDialog
+        """
         if event.button.id == "quit":
             self.dismiss(True)
         else:
@@ -100,6 +103,9 @@ class MessageDialog(ModalScreen):
         self.verify_flags()
 
     def compose(self) -> ComposeResult:
+        """
+        Create the widgets for the MessageDialog's user interface
+        """
         buttons = []
         if self.icon:
             message_label = Label(f"{self.icon} {self.message}", id="message-lbl")
@@ -122,6 +128,13 @@ class MessageDialog(ModalScreen):
         )
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
+        """
+        Called when the user presses one of the buttons.
+
+        OK - Returns None (via dismiss callback)
+        Cancel and No - Returns False (via dismiss callback)
+        Yes - Returns True (via dismiss callback)
+        """
         if event.button.id == "ok-btn":
             self.dismiss(None)
         elif event.button.id in ["cancel-btn", "no-btn"]:
@@ -130,6 +143,9 @@ class MessageDialog(ModalScreen):
             self.dismiss(True)
 
     def verify_flags(self) -> None:
+        """
+        Basic verification of the button flags the user sent to create the dialog
+        """
         self.buttons = [btn for btn in self.flags]
         button_count = len(self.buttons)
 
@@ -191,6 +207,9 @@ class SaveFileDialog(ModalScreen):
         self.root = "c:/"
 
     def compose(self) -> ComposeResult:
+        """
+        Create the widgets for the SaveFileDialog's user interface
+        """
         yield Grid(
             Header(),
             Label(f"Folder name: {self.root}", id="folder"),
@@ -257,6 +276,9 @@ class TextEntryDialog(ModalScreen):
         self.title = title
 
     def compose(self) -> ComposeResult:
+        """
+        Create the widgets for the TextEntryDialog's user interface
+        """
         yield Vertical(
             Header(),
             Center(Label(self.message, id="text-entry-label")),
@@ -271,34 +293,22 @@ class TextEntryDialog(ModalScreen):
         )
 
     def on_mount(self) -> None:
+        """
+        Set the focus on the input widget by default when the dialog is loaded
+        """
         self.query_one("#answer").focus()
 
     @on(Button.Pressed, "#text-entry-ok")
     def on_ok(self, event: Button.Pressed) -> None:
+        """
+        Return the user's entry back to the calling application and dismiss the dialog
+        """
         answer = self.query_one("#answer").value
         self.dismiss(answer)
 
     @on(Button.Pressed, "#text-entry-cancel")
     def on_cancel(self, event: Button.Pressed) -> None:
+        """
+        Returns False to the calling application and dismisses the dialog
+        """
         self.dismiss(False)
-
-
-from textual.app import App
-import icons
-
-
-class SimpleApp(App):
-    def on_mount(self) -> ComposeResult:
-        def my_callback(value: None | bool) -> None:
-            self.exit()
-
-        # self.push_screen(MessageDialog("What is your favorite language?", icon=icons.ICON_QUESTION, title="Warning"), my_callback)
-        # self.push_screen(SaveFileDialog(), my_callback)
-        self.push_screen(
-            TextEntryDialog("What is your name?", "Information"), my_callback
-        )
-
-
-if __name__ == "__main__":
-    app = SimpleApp()
-    app.run()
