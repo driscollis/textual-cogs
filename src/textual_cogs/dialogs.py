@@ -26,7 +26,7 @@ class QuitDialog(ModalScreen[bool]):
         width: 60;
         height: 11;
         border: thick $background 80%;
-        background: $surface;
+        background: $surface-lighten-1;
     }
 
     #question {
@@ -63,7 +63,7 @@ class MessageDialog(ModalScreen):
     DEFAULT_CSS = """
     MessageDialog {
         align: center middle;
-        background: $primary 30%;
+        background: $primary-lighten-1 30%;
     }
 
     #msg-dlg {
@@ -112,13 +112,13 @@ class MessageDialog(ModalScreen):
         else:
             message_label = Label(self.message, id="message-lbl")
         if "OK" in self.buttons:
-            buttons.append(Button("OK", id="ok-btn"))
+            buttons.append(Button("OK", id="ok-btn", variant="primary"))
         if "Cancel" in self.buttons:
-            buttons.append(Button("Cancel", id="cancel-btn"))
+            buttons.append(Button("Cancel", id="cancel-btn", variant="error"))
         if "Yes" in self.buttons:
-            buttons.append(Button("Yes", id="yes-btn"))
+            buttons.append(Button("Yes", id="yes-btn", variant="primary"))
         if "No" in self.buttons:
-            buttons.append(Button("No", id="no-btn"))
+            buttons.append(Button("No", id="no-btn", variant="error"))
 
         yield Vertical(
             Header(),
@@ -184,7 +184,7 @@ class SaveFileDialog(ModalScreen):
         width: 100;
         height: 25;
         border: thick $background 70%;
-        background: $surface;
+        background: $surface-lighten-1;
     }
 
     #save_file {
@@ -204,7 +204,7 @@ class SaveFileDialog(ModalScreen):
     def __init__(self) -> None:
         super().__init__()
         self.title = "Save File"
-        self.root = "c:/"
+        self.root = "/"
 
     def compose(self) -> ComposeResult:
         """
@@ -249,7 +249,7 @@ class TextEntryDialog(ModalScreen):
     DEFAULT_CSS = """
     TextEntryDialog {
         align: center middle;
-        background: $primary 30%;
+        background: $primary-lighten-1 30%;
     }
 
     #text-entry-dlg {
@@ -285,8 +285,8 @@ class TextEntryDialog(ModalScreen):
             Input(placeholder="", id="answer"),
             Center(
                 Horizontal(
-                    Button("OK", variant="error", id="text-entry-ok"),
-                    Button("Cancel", variant="primary", id="text-entry-cancel"),
+                    Button("OK", variant="primary", id="text-entry-ok"),
+                    Button("Cancel", variant="error", id="text-entry-cancel"),
                 )
             ),
             id="text-entry-dlg",
