@@ -20,7 +20,7 @@ You also need [Textual](https://github.com/Textualize/textual) to run these dial
 
 ## Example Usage
 
-Here is an example of creating a small application that opens the `MessageDialog` immediatly. You would normally open the dialog in response to a message or event that has occurred, such as when the application has an error or you need to tell the user something.
+Here is an example of creating a small application that opens the `MessageDialog` immediately. You would normally open the dialog in response to a message or event that has occurred, such as when the application has an error or you need to tell the user something.
 
 ```python
 from textual.app import App
