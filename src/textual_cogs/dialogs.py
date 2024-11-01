@@ -1,6 +1,6 @@
 # dialogs.py
 
-# from . import labels
+from . import labels
 
 from textual import on
 from textual.app import ComposeResult
