@@ -50,3 +50,7 @@ if __name__ == "__main__":
     app = DialogApp()
     app.run()
 ```
+
+When you run this code, you will get something like the following:
+
+![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/message_dialog.jpg)
