@@ -2,6 +2,12 @@
 
 A collection of Textual dialogs.
 
+Dialogs included so far:
+
+- Generic `MessageDialog` - shows messages to the user
+- `SaveFileDialog` - gives the user a way to select a location to save a file
+- `TextEntryDialog` - Ask the user a question and get their answer using an `Input` widget
+
 ## Installation
 
 You can install `textual-cog` using pip:
