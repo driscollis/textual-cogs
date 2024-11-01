@@ -25,7 +25,6 @@ Here is an example of creating a small application that opens the `MessageDialog
 ```python
 from textual.app import App
 from textual.app import App, ComposeResult
-from textual.widgets import Static
 
 from textual_cogs.dialogs import MessageDialog
 from textual_cogs import icons
@@ -54,3 +53,57 @@ if __name__ == "__main__":
 When you run this code, you will get something like the following:
 
 ![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/message_dialog.jpg)
+
+### Creating a TextEntryDialog
+
+Here 
+
+```python
+from textual.app import App
+from textual.app import App, ComposeResult
+
+from textual_cogs.dialogs import TextEntryDialog
+
+
+class DialogApp(App):
+    def on_mount(self) -> ComposeResult:
+        def my_callback(value: str | bool) -> None:
+            self.exit()
+
+        self.push_screen(
+            TextEntryDialog("What is your name?", "Information"), my_callback
+        )
+
+
+if __name__ == "__main__":
+    app = DialogApp()
+    app.run()
+```
+
+When you run this code, you will see the following:
+
+![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/text_entry_dialog.jpg)
+
+### Creating a SaveFileDialog
+
+The following code demonstrates how to create a `SaveFileDialog`:
+
+```python
+from textual.app import App
+from textual.app import App, ComposeResult
+
+from textual_cogs.dialogs import SaveFileDialog
+
+
+class DialogApp(App):
+    def on_mount(self) -> ComposeResult:        
+        self.push_screen(SaveFileDialog())
+
+if __name__ == "__main__":
+    app = DialogApp()
+    app.run()
+```
+
+When you run this code, you will see the following:
+
+![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/save_file_dialog.jpg)
