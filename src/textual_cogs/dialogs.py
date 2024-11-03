@@ -3,12 +3,13 @@
 from . import labels
 
 from textual import on
+from textual._color_constants import ANSI_COLORS, COLOR_NAME_TO_RGB
 from textual.app import ComposeResult
 from textual.containers import Grid, Center, Vertical, Horizontal
 from textual.message import Message
 from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Footer, Input, Label
-from textual.widgets import OptionList
+from textual.widgets import OptionList, Select, Placeholder
 
 
 class QuitDialog(ModalScreen[bool]):
@@ -383,6 +384,68 @@ class SingleChoiceDialog(ModalScreen):
         self.dismiss(self.current_option)
 
     @on(Button.Pressed, "#single-choice-cancel")
+    def on_cancel(self, event: Button.Pressed) -> None:
+        """
+        Returns False to the calling application and dismisses the dialog
+        """
+        self.dismiss(False)
+
+
+class SimpleColorPickerDialog(ModalScreen):
+    
+    DEFAULT_CSS = """
+    SimpleColorPickerDialog {
+        align: center middle;
+        background: $primary 30%;
+        }
+        #simple-color-dlg {
+            width: 85;
+            height: 18;
+            border: thick $background 70%;
+            content-align: center middle;
+            margin: 1;
+        }
+        Button {
+            width: 50%;
+            margin: 1;
+        }
+    """
+    
+    def __init__(self) -> None:
+        super().__init__()
+        self.title = "Color Picker"
+        
+    def compose(self):
+        colors = ANSI_COLORS + list(COLOR_NAME_TO_RGB.keys())
+        colors.sort()
+        yield Vertical(
+            Header(),
+            Center(Select.from_values(colors, id="simple-color-picker")),
+            Center(Placeholder(id="chosen-color")),
+            Center(
+                Horizontal(
+                     Button("OK", variant="primary", id="simple-color-ok"),
+                     Button("Cancel", variant="error", id="simple-color-cancel"),
+                )
+            ),
+            id="simple-color-dlg",
+        )
+        
+    @on(Select.Changed, "#simple-color-picker")
+    def on_selection_changed(self, event: Select.Changed):
+        self.current_color = event.select.value
+        self.log.info(f"Selection -> {event.select.value}")
+        self.query_one("#chosen-color").styles.background = self.current_color
+        
+    @on(Button.Pressed, "#SimpleColorPickerDialog-ok")
+    def on_ok(self, event: Button.Pressed) -> None:
+        """
+        Return the user's choice back to the calling application and dismiss the dialog
+        """
+        value = self.query_one("#minimal-pw").value
+        self.dismiss(value)
+        
+    @on(Button.Pressed, "#SimpleColorPickerDialog-cancel")
     def on_cancel(self, event: Button.Pressed) -> None:
         """
         Returns False to the calling application and dismisses the dialog
