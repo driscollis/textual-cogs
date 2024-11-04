@@ -1,6 +1,6 @@
 [project]
 name = "textual-cogs"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Mike Driscoll", email="mike@pythonlibrary.org" },
 ]

@@ -1,6 +1,6 @@
 # dialogs.py
 
-from . import labels
+from textual_cogs import labels
 
 from textual import on
 from textual._color_constants import COLOR_NAME_TO_RGB
@@ -321,23 +321,23 @@ class SingleChoiceDialog(ModalScreen):
     SingleChoiceDialog {
         align: center middle;
         background: $primary 30%;
-    }
 
-    #single-choice-dlg {
-        width: 85;
-        height: 18;
-        border: thick $background 70%;
-        content-align: center middle;
-        margin: 1;
-    }
+        #single-choice-dlg {
+            width: 85;
+            height: 18;
+            border: thick $background 70%;
+            content-align: center middle;
+            margin: 1;
+        }
 
-    #single-choice-label {
-        margin: 1;
-    }
+        #single-choice-label {
+            margin: 1;
+        }
 
-    Button {
-        width: 50%;
-        margin: 1;
+        Button {
+            width: 50%;
+            margin: 1;
+        }
     }
     """
 
