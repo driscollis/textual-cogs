@@ -1,8 +1,9 @@
 # quit_dialog.py
 
 from textual.app import ComposeResult
+from textual.containers import Grid
 from textual.screen import ModalScreen
-from textual.widgets import Button
+from textual.widgets import Button, Label
 
 
 class QuitDialog(ModalScreen[bool]):

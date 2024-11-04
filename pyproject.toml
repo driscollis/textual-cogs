@@ -30,3 +30,6 @@ Issues = "https://github.com/driscollis/textual-cogs/issues"
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+exclude = ["__init__.py"]

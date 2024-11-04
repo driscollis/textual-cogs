@@ -1,10 +1,12 @@
 # single_color_picker_dialog.py
 
+from textual._color_constants import COLOR_NAME_TO_RGB
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Center, Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Header, Placeholder, Select
+
 
 class SimpleColorPickerDialog(ModalScreen):
     DEFAULT_CSS = """
