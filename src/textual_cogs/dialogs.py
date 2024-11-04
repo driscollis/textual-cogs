@@ -421,6 +421,7 @@ class SimpleColorPickerDialog(ModalScreen):
     def __init__(self) -> None:
         super().__init__()
         self.title = "Color Picker"
+        self.current_color = None
 
     def compose(self):
         colors = list(COLOR_NAME_TO_RGB.keys())
@@ -451,15 +452,14 @@ class SimpleColorPickerDialog(ModalScreen):
         place.styles.background = self.current_color
         place.value = self.current_color
 
-    @on(Button.Pressed, "#SimpleColorPickerDialog-ok")
+    @on(Button.Pressed, "#simple-color-ok")
     def on_ok(self, event: Button.Pressed) -> None:
         """
         Return the user's choice back to the calling application and dismiss the dialog
         """
-        value = self.query_one("#minimal-pw").value
-        self.dismiss(value)
+        self.dismiss(self.current_color)
 
-    @on(Button.Pressed, "#SimpleColorPickerDialog-cancel")
+    @on(Button.Pressed, "#simple-color-cancel")
     def on_cancel(self, event: Button.Pressed) -> None:
         """
         Returns False to the calling application and dismisses the dialog
