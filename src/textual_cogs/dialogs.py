@@ -1,6 +1,6 @@
 # dialogs.py
 
-import labels
+from . import labels
 
 from textual import on
 from textual._color_constants import COLOR_NAME_TO_RGB
