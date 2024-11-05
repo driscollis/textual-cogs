@@ -3,7 +3,8 @@
 import platform
 
 from textual_cogs import icons, labels
-from textual_cogs.dialogs import MessageDialog,  SaveFileDialog
+from textual_cogs.dialogs import MessageDialog, SingleChoiceDialog
+from textual_cogs.dialogs import SaveFileDialog
 
 from textual import on
 from textual.app import App, ComposeResult
@@ -28,6 +29,13 @@ class DemoCogsApp(App):
                 yield Vertical(
                     Center(
                         Button("SaveFileDialog", id="save-file-dlg")
+                    )
+                )
+
+            with TabPane("Choice Dialogs", id="choice-dlgs"):
+                yield Vertical(
+                    Center(
+                        Button("SingleChoiceDialog", id="single-choice-dlg")
                     )
                 )
 
