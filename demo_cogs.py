@@ -31,13 +31,16 @@ class DemoCogsApp(App):
                     )
                 )
 
-    def msg_dialog_callback(self, button_choice):
+    def msg_dialog_callback(self, button_choice: None | bool) -> None:
         choices = {
             None: "OK",
             True: "Yes",
             False: "No or Cancel",
         }
         self.notify(f"You pressed '{choices[button_choice]}'")
+
+    def save_file_dialog_callback(self, file: str) -> None:
+        self.notify(f"Saving file to: {file}")
 
     @on(Button.Pressed, "#info-msg")
     def on_info_msg(self, event: Button.Pressed) -> None:
@@ -92,11 +95,10 @@ class DemoCogsApp(App):
 
     @on(Button.Pressed, "#save-file-dlg")
     def on_save_file_dialog(self, event: Button.Pressed) -> None:
-        self.push_screen(SaveFileDialog())
-        #if "Windows" in platform.platform():
-            #self.push_screen(SaveFileDialog(root="C:"))
-        #else:
-            #self.push_screen(SaveFileDialog())
+        if "Windows" in platform.platform():
+            self.push_screen(SaveFileDialog(root="C:"), self.save_file_dialog_callback)
+        else:
+            self.push_screen(SaveFileDialog(), self.save_file_dialog_callback)
 
 
 if __name__ == "__main__":
