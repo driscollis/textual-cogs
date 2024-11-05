@@ -3,7 +3,6 @@
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Grid
-from textual.message import Message
 from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Input, Label
 
@@ -30,20 +29,10 @@ class SaveFileDialog(ModalScreen):
         background: green;
     }
     """
-
-    class Selected(Message):
-        """
-        File selected message
-        """
-
-        def __init__(self, filename: str) -> None:
-            self.filename = filename
-            super().__init__()
-
-    def __init__(self) -> None:
+    def __init__(self, root="/") -> None:
         super().__init__()
         self.title = "Save File"
-        self.root = "/"
+        self.root = root
 
     def compose(self) -> ComposeResult:
         """
@@ -70,7 +59,7 @@ class SaveFileDialog(ModalScreen):
         """
         event.stop()
         filename = self.query_one("#filename").value
-        self.post_message(self.Selected(filename))
+        self.dismiss(filename)
 
     @on(DirectoryTree.DirectorySelected)
     def on_directory_selection(self, event: DirectoryTree.DirectorySelected) -> None:
