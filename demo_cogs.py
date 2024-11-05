@@ -1,25 +1,35 @@
 # demo_cogs.py
 
+import platform
+
 from textual_cogs import icons, labels
-from textual_cogs.dialogs import MessageDialog
+from textual_cogs.dialogs import MessageDialog,  SaveFileDialog
 
 from textual import on
 from textual.app import App, ComposeResult
 from textual.containers import Center, Vertical
-from textual.widgets import Button
+from textual.widgets import Button, TabbedContent, TabPane
 
 
 class DemoCogsApp(App):
     def compose(self) -> ComposeResult:
-        yield Vertical(
-            Center(
-                Button("Info MessageDialog", id="info-msg"),
-                Button("Exclamation MessageDialog", id="exclamation-msg"),
-                Button("Question MessageDialog", id="question-msg"),
-                Button("Warning MessageDialog", id="warning-msg"),
-                Button("Regular MessageDialog", id="regular-msg"),
-            )
-        )
+        with TabbedContent(initial="msg-dlgs"):
+            with TabPane("Message Dialogs", id="msg-dlgs"):
+                yield Vertical(
+                    Center(
+                        Button("Info MessageDialog", id="info-msg"),
+                        Button("Exclamation MessageDialog", id="exclamation-msg"),
+                        Button("Question MessageDialog", id="question-msg"),
+                        Button("Warning MessageDialog", id="warning-msg"),
+                        Button("Regular MessageDialog", id="regular-msg"),
+                    )
+                )
+            with TabPane("File Dialogs", id="file-dlgs"):
+                yield Vertical(
+                    Center(
+                        Button("SaveFileDialog", id="save-file-dlg")
+                    )
+                )
 
     def msg_dialog_callback(self, button_choice):
         choices = {
@@ -79,6 +89,14 @@ class DemoCogsApp(App):
             ),
             self.msg_dialog_callback,
         )
+
+    @on(Button.Pressed, "#save-file-dlg")
+    def on_save_file_dialog(self, event: Button.Pressed) -> None:
+        self.push_screen(SaveFileDialog())
+        #if "Windows" in platform.platform():
+            #self.push_screen(SaveFileDialog(root="C:"))
+        #else:
+            #self.push_screen(SaveFileDialog())
 
 
 if __name__ == "__main__":
