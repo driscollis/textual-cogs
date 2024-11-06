@@ -1,0 +1,11 @@
+DemoCogsApp {
+    Button {
+        width: 30;
+        margin: 1;
+        background: gold;
+    }
+}
+
+#tabbed {
+    background: $primary-lighten-1 30%;
+}

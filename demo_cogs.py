@@ -13,8 +13,11 @@ from textual.widgets import Button, TabbedContent, TabPane
 
 
 class DemoCogsApp(App):
+
+    CSS_PATH = "demo_cogs.tcss"
+
     def compose(self) -> ComposeResult:
-        with TabbedContent(initial="msg-dlgs"):
+        with TabbedContent(initial="msg-dlgs", id="tabbed"):
             with TabPane("Message Dialogs", id="msg-dlgs"):
                 yield Vertical(
                     Center(
