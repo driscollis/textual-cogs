@@ -4,7 +4,7 @@ import platform
 
 from textual_cogs import icons, labels
 from textual_cogs.dialogs import MessageDialog, SaveFileDialog
-from textual_cogs.dialogs import SingleChoiceDialog, TextEntryDialog
+from textual_cogs.dialogs import SingleChoiceDialog, SingleColorPickerDialog, TextEntryDialog
 
 from textual import on
 from textual.app import App, ComposeResult
@@ -46,6 +46,7 @@ class DemoCogsApp(App):
                 yield Vertical(
                     Center(
                         Button("SingleChoiceDialog", id="single-choice-dlg"),
+                        Button("SingleColorPicker", id="single-color-picker-dlg"),
                         Button("TextEntryDialog", id="text-entry-dlg"),
                     )
                 )
@@ -67,6 +68,9 @@ class DemoCogsApp(App):
     def single_choice_callback(self, choice: str) -> None:
         severity = "information" if choice == "Python" else "error"
         self.notify(f"You picked: '{choice}'", severity=severity)
+
+    def single_color_callback(self, color: str) -> None:
+        self.notify(f"You chose the color: '{color}'")
 
     def text_entry_callback(self, entry: str) -> None:
         self.notify(f"You entered: '{entry}'")
@@ -140,6 +144,10 @@ class DemoCogsApp(App):
             ),
             self.single_choice_callback,
         )
+
+    @on(Button.Pressed, "#single-color-picker-dlg")
+    def on_color_picked(self, event:Button.Pressed) -> None:
+        self.push_screen(SingleColorPickerDialog(), self.single_color_callback)
 
     @on(Button.Pressed, "#text-entry-dlg")
     def on_text_entry_dialog(self, event: Button.Pressed) -> None:

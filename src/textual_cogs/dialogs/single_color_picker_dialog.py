@@ -10,7 +10,7 @@ from textual.widgets import Button, Header, Placeholder, Select
 
 class SingleColorPickerDialog(ModalScreen):
     DEFAULT_CSS = """
-    SimpleColorPickerDialog {
+    SingleColorPickerDialog {
         align: center middle;
         background: $primary 30%;
 
