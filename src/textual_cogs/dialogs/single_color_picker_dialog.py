@@ -8,7 +8,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Header, Placeholder, Select
 
 
-class SimpleColorPickerDialog(ModalScreen):
+class SingleColorPickerDialog(ModalScreen):
     DEFAULT_CSS = """
     SimpleColorPickerDialog {
         align: center middle;
