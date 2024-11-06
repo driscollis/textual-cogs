@@ -1,9 +1,10 @@
 # save_dialog.py
 
+import os
+
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Grid
-from textual.message import Message
 from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Input, Label
 
@@ -31,19 +32,11 @@ class SaveFileDialog(ModalScreen):
     }
     """
 
-    class Selected(Message):
-        """
-        File selected message
-        """
-
-        def __init__(self, filename: str) -> None:
-            self.filename = filename
-            super().__init__()
-
-    def __init__(self) -> None:
+    def __init__(self, root="/") -> None:
         super().__init__()
         self.title = "Save File"
-        self.root = "/"
+        self.root = root
+        self.folder = root
 
     def compose(self) -> ComposeResult:
         """
@@ -70,11 +63,13 @@ class SaveFileDialog(ModalScreen):
         """
         event.stop()
         filename = self.query_one("#filename").value
-        self.post_message(self.Selected(filename))
+        full_path = os.path.join(self.folder, filename)
+        self.dismiss(full_path)
 
     @on(DirectoryTree.DirectorySelected)
     def on_directory_selection(self, event: DirectoryTree.DirectorySelected) -> None:
         """
         Called when the DirectorySelected message is emitted from the DirectoryTree
         """
-        self.query_one("#folder").update(f"Folder name: {event.path}")
+        self.folder = event.path
+        self.query_one("#folder").update(f"Folder name: {self.folder}")
