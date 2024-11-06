@@ -4,7 +4,7 @@ import os
 
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Grid
+from textual.containers import Grid, Horizontal
 from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Input, Label
 
@@ -19,7 +19,7 @@ class SaveFileDialog(ModalScreen):
     #save_dialog{
         grid-size: 1 5;
         grid-gutter: 1 2;
-        grid-rows: 5% 55% 15% 20%;
+        grid-rows: 5% 45% 15% 30%;
         padding: 0 1;
         width: 100;
         height: 25;
@@ -47,7 +47,10 @@ class SaveFileDialog(ModalScreen):
             Label(f"Folder name: {self.root}", id="folder"),
             DirectoryTree(self.root, id="directory"),
             Input(placeholder="filename.txt", id="filename"),
-            Button("Save File", variant="primary", id="save_file"),
+            Horizontal(
+                Button("Save File", variant="primary", id="save_file"),
+                Button("Cancel", variant="error", id="cancel_file"),
+            ),
             id="save_dialog",
         )
 
@@ -62,9 +65,12 @@ class SaveFileDialog(ModalScreen):
         Event handler for when the load file button is pressed
         """
         event.stop()
-        filename = self.query_one("#filename").value
-        full_path = os.path.join(self.folder, filename)
-        self.dismiss(full_path)
+        if event.button.id == "save_file":
+            filename = self.query_one("#filename").value
+            full_path = os.path.join(self.folder, filename)
+            self.dismiss(full_path)
+        else:
+            self.dismiss(False)
 
     @on(DirectoryTree.DirectorySelected)
     def on_directory_selection(self, event: DirectoryTree.DirectorySelected) -> None:

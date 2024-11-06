@@ -13,8 +13,19 @@ from textual.widgets import Button, TabbedContent, TabPane
 
 
 class DemoCogsApp(App):
+    DEFAULT_CSS = """
+    DemoCogsApp {
+        Button {
+            width: 30;
+            margin: 1;
+            background: gold;
+        }
+    }
 
-    CSS_PATH = "demo_cogs.tcss"
+    #tabbed {
+        background: $primary-lighten-1 30%;
+    }
+    """
 
     def compose(self) -> ComposeResult:
         with TabbedContent(initial="msg-dlgs", id="tabbed"):
@@ -48,7 +59,10 @@ class DemoCogsApp(App):
         self.notify(f"You pressed '{choices[button_choice]}'")
 
     def save_file_dialog_callback(self, file: str) -> None:
-        self.notify(f"Saving file to: '{file}'")
+        if file:
+            self.notify(f"Saving file to: '{file}'")
+        else:
+            self.notify("You cancelled saving the file!")
 
     def single_choice_callback(self, choice: str) -> None:
         severity = "information" if choice == "Python" else "error"
