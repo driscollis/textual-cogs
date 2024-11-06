@@ -1,0 +1,4 @@
+site_name: textual-cogs Docs
+site_url: https://driscollis.github.io/textual-cogs
+theme:
+  name: material
