@@ -5,7 +5,7 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Center, Horizontal, Vertical
 from textual.screen import ModalScreen
-from textual.widgets import Button, Header, Placeholder, Select
+from textual.widgets import Button, Header, Static, Select
 
 
 class SingleColorPickerDialog(ModalScreen):
@@ -27,10 +27,10 @@ class SingleColorPickerDialog(ModalScreen):
             margin: 1;
         }
 
-        Placeholder {
+        Static {
                     width: 100%;
                     height:5;
-                    margin: 1
+
             }
     }
     """
@@ -43,15 +43,13 @@ class SingleColorPickerDialog(ModalScreen):
     def compose(self) -> ComposeResult:
         colors = list(COLOR_NAME_TO_RGB.keys())
         colors.sort()
-        placeholder = Placeholder(
-            label="No Color Selected", id="chosen-color", disabled=True
-        )
-        placeholder.styles.background = None
+        static = Static(id="chosen-color")
+        static.styles.background = None
 
         yield Vertical(
             Header(),
             Center(Select.from_values(colors, id="simple-color-picker")),
-            Center(placeholder),
+            Center(static),
             Center(
                 Horizontal(
                     Button("OK", variant="primary", id="simple-color-ok"),
@@ -65,9 +63,8 @@ class SingleColorPickerDialog(ModalScreen):
     def on_selection_changed(self, event: Select.Changed):
         self.current_color = event.select.value
         self.log.info(f"Selection -> {event.select.value}")
-        place = self.query_one("#chosen-color")
-        place.styles.background = self.current_color
-        place.value = self.current_color
+        static = self.query_one("#chosen-color")
+        static.styles.background = self.current_color
 
     @on(Button.Pressed, "#simple-color-ok")
     def on_ok(self, event: Button.Pressed) -> None:
