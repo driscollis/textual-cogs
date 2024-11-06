@@ -2,11 +2,14 @@
 
 A collection of Textual dialogs.
 
+![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/cog_demo.gif)
+
 Dialogs included so far:
 
 - Generic `MessageDialog` - shows messages to the user
 - `SaveFileDialog` - gives the user a way to select a location to save a file
-- `TextEntryDialog` - Ask the user a question and get their answer using an `Input` widget
+- `SingleChoiceDialog` - gives the user a series of choices to pick from
+- `TextEntryDialog` - ask the user a question and get their answer using an `Input` widget
 
 ## Installation
 
