@@ -59,7 +59,7 @@ When you run this code, you will get something like the following:
 
 ### Creating a TextEntryDialog
 
-Here 
+Here is how you would create a `TextEntryDialog`:
 
 ```python
 from textual.app import App
