@@ -4,7 +4,11 @@ import platform
 
 from textual_cogs import icons, labels
 from textual_cogs.dialogs import MessageDialog, SaveFileDialog
-from textual_cogs.dialogs import SingleChoiceDialog, SingleColorPickerDialog, TextEntryDialog
+from textual_cogs.dialogs import (
+    SingleChoiceDialog,
+    SingleColorPickerDialog,
+    TextEntryDialog,
+)
 
 from textual import on
 from textual.app import App, ComposeResult
@@ -146,7 +150,7 @@ class DemoCogsApp(App):
         )
 
     @on(Button.Pressed, "#single-color-picker-dlg")
-    def on_color_picked(self, event:Button.Pressed) -> None:
+    def on_color_picked(self, event: Button.Pressed) -> None:
         self.push_screen(SingleColorPickerDialog(), self.single_color_callback)
 
     @on(Button.Pressed, "#text-entry-dlg")
