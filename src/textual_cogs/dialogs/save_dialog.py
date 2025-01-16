@@ -32,8 +32,14 @@ class SaveFileDialog(ModalScreen):
     }
     """
 
-    def __init__(self, root="/") -> None:
-        super().__init__()
+    def __init__(
+        self,
+        root="/",
+        name: str | None = None,
+        id: str | None = None,
+        classes: str | None = None,
+    ) -> None:
+        super().__init__(name, id, classes)
         self.title = "Save File"
         self.root = root
         self.folder = root

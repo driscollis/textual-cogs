@@ -35,8 +35,10 @@ class SingleColorPickerDialog(ModalScreen):
     }
     """
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(
+        self, name: str | None = None, id: str | None = None, classes: str | None = None
+    ) -> None:
+        super().__init__(name, id, classes)
         self.title = "Color Picker"
         self.current_color = None
 

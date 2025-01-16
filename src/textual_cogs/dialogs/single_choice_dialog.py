@@ -32,8 +32,16 @@ class SingleChoiceDialog(ModalScreen):
     }
     """
 
-    def __init__(self, message: str, title: str, choices: list[str]) -> None:
-        super().__init__()
+    def __init__(
+        self,
+        message: str,
+        title: str,
+        choices: list[str],
+        name: str | None = None,
+        id: str | None = None,
+        classes: str | None = None,
+    ) -> None:
+        super().__init__(name, id, classes)
         self.message = message
         self.title = title
         self.choices = choices
