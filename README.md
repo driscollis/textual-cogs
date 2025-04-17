@@ -16,7 +16,7 @@ Dialogs included so far:
 You can install `textual-cog` using pip:
 
 ```
-python -m pip install textual-cog
+python -m pip install textual-cogs
 ```
 
 You also need [Textual](https://github.com/Textualize/textual) to run these dialogs.
