@@ -1,5 +1,7 @@
 # textual-cogs
 
+[![Framework: Textual](https://img.shields.io/badge/framework-Textual-5967FF?logo=python)](https://www.textualize.io/)
+
 A collection of Textual dialogs.
 
 ![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/cog_demo.gif)
