@@ -30,14 +30,12 @@ class DemoCogsApp(App):
                         Button("Warning MessageDialog", id="warning-msg"),
                         Button("Regular MessageDialog", id="regular-msg"),
                     ),
-                    id="msg_dlg_layout"
+                    id="msg_dlg_layout",
                 )
             with TabPane("File Dialogs", id="file-dlgs"):
                 yield Vertical(
-                    Center(
-                        Button("SaveFileDialog", id="save-file-dlg")
-                    ),
-                    id="file_dlg_layout"
+                    Center(Button("SaveFileDialog", id="save-file-dlg")),
+                    id="file_dlg_layout",
                 )
 
             with TabPane("Choice Dialogs", id="choice-dlgs"):
@@ -47,7 +45,7 @@ class DemoCogsApp(App):
                         Button("SingleColorPicker", id="single-color-picker-dlg"),
                         Button("TextEntryDialog", id="text-entry-dlg"),
                     ),
-                    id="choice_dlg_layout"
+                    id="choice_dlg_layout",
                 )
 
     def msg_dialog_callback(self, button_choice: None | bool) -> None:
