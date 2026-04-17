@@ -102,17 +102,3 @@ class SaveFileDialog(ModalScreen):
         """
         self.folder = event.path
         self.query_one("#folder").update(f"Folder name: {self.folder}")
-
-
-from textual.app import App
-
-
-class TestApp(App):
-    def compose(self) -> ComposeResult:
-        yield Button("Open dialog")
-
-    def on_button_pressed(self) -> None:
-        self.push_screen(SaveFileDialog())
-
-
-TestApp().run()
