@@ -1,8 +1,24 @@
 DemoCogsApp {
-    Button {
-        width: 30;
-        margin: 1;
-        background: green;
+    #msg_dlg_layout {
+        Button {
+            width: 30;
+            margin: 1;
+            background: green;
+        }
+    }
+    #file_dlg_layout {
+        Button {
+            width: 30;
+            margin: 1;
+            background: green;
+        }
+    }
+    #choice_dlg_layout {
+        Button {
+            width: 30;
+            margin: 1;
+            background: green;
+        }
     }
 }
 
