@@ -4,7 +4,7 @@ import os
 
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Grid, Horizontal
+from textual.containers import Grid, Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Input, Label
 
@@ -17,14 +17,30 @@ class SaveFileDialog(ModalScreen):
     }
 
     #save_dialog{
-        grid-size: 1 5;
-        grid-gutter: 1 2;
-        grid-rows: 5% 45% 15% 30%;
-        padding: 0 1;
-        width: 100;
+        width: 50%;
         height: 25;
         border: thick $background 70%;
         background: $surface-lighten-1;
+        Button {
+            width: 50%;
+            margin: 1;
+        }
+    }
+
+    Horizontal {
+        height: auto;
+    }
+
+    Label {
+        margin: 1;
+    }
+
+    DirectoryTree {
+        margin: 1;
+    }
+
+    Input {
+        margin: 1;
     }
 
     #save_file {
@@ -48,14 +64,15 @@ class SaveFileDialog(ModalScreen):
         """
         Create the widgets for the SaveFileDialog's user interface
         """
-        yield Grid(
-            Header(),
+        yield Header()
+        yield Vertical(
             Label(f"Folder name: {self.root}", id="folder"),
             DirectoryTree(self.root, id="directory"),
             Input(placeholder="filename.txt", id="filename"),
             Horizontal(
                 Button("Save File", variant="primary", id="save_file"),
                 Button("Cancel", variant="error", id="cancel_file"),
+                id="save_btn_row"
             ),
             id="save_dialog",
         )
@@ -85,3 +102,16 @@ class SaveFileDialog(ModalScreen):
         """
         self.folder = event.path
         self.query_one("#folder").update(f"Folder name: {self.folder}")
+
+
+from textual.app import App
+
+class TestApp(App):
+
+    def compose(self) -> ComposeResult:
+        yield Button("Open dialog")
+
+    def on_button_pressed(self) -> None:
+        self.push_screen(SaveFileDialog())
+
+TestApp().run()
