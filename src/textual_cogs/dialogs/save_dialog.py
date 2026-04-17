@@ -72,7 +72,7 @@ class SaveFileDialog(ModalScreen):
             Horizontal(
                 Button("Save File", variant="primary", id="save_file"),
                 Button("Cancel", variant="error", id="cancel_file"),
-                id="save_btn_row"
+                id="save_btn_row",
             ),
             id="save_dialog",
         )
@@ -106,12 +106,13 @@ class SaveFileDialog(ModalScreen):
 
 from textual.app import App
 
-class TestApp(App):
 
+class TestApp(App):
     def compose(self) -> ComposeResult:
         yield Button("Open dialog")
 
     def on_button_pressed(self) -> None:
         self.push_screen(SaveFileDialog())
+
 
 TestApp().run()
