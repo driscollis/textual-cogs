@@ -17,19 +17,7 @@ from textual.widgets import Button, TabbedContent, TabPane
 
 
 class DemoCogsApp(App):
-    DEFAULT_CSS = """
-    DemoCogsApp {
-        Button {
-            width: 30;
-            margin: 1;
-            background: gold;
-        }
-    }
-
-    #tabbed {
-        background: $primary-lighten-1 30%;
-    }
-    """
+    CSS_PATH = "demo_cogs.tcss"
 
     def compose(self) -> ComposeResult:
         with TabbedContent(initial="msg-dlgs", id="tabbed"):
