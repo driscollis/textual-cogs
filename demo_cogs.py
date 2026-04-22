@@ -3,7 +3,7 @@
 import platform
 
 from textual_cogs import icons, labels
-from textual_cogs.dialogs import MessageDialog, SaveFileDialog
+from textual_cogs.dialogs import MessageDialog, OpenFileDialog, SaveFileDialog
 from textual_cogs.dialogs import (
     SingleChoiceDialog,
     SingleColorPickerDialog,
@@ -34,7 +34,10 @@ class DemoCogsApp(App):
                 )
             with TabPane("File Dialogs", id="file-dlgs"):
                 yield Vertical(
-                    Center(Button("SaveFileDialog", id="save-file-dlg")),
+                    Center(
+                        Button("OpenFileDialog", id="open-file-dlg"),
+                        Button("SaveFileDialog", id="save-file-dlg"),
+                    ),
                     id="file_dlg_layout",
                 )
 
@@ -55,6 +58,15 @@ class DemoCogsApp(App):
             False: "No or Cancel",
         }
         self.notify(f"You pressed '{choices[button_choice]}'")
+
+    def open_file_dialog_callback(self, file: str | bool) -> None:
+        """
+        Callback from the OpenFileDialog with the selected file or False if the dialog was cancelled
+        """
+        if file:
+            self.notify(f"You chose to open: {file}")
+        else:
+            self.notify("You cancelled opening a file!")
 
     def save_file_dialog_callback(self, file: str) -> None:
         if file:
@@ -122,6 +134,10 @@ class DemoCogsApp(App):
             ),
             self.msg_dialog_callback,
         )
+
+    @on(Button.Pressed, "#open-file-dlg")
+    def on_open_file_dialog(self, event: Button.Pressed) -> None:
+        self.push_screen(OpenFileDialog(), self.open_file_dialog_callback)
 
     @on(Button.Pressed, "#save-file-dlg")
     def on_save_file_dialog(self, event: Button.Pressed) -> None:
