@@ -9,8 +9,11 @@ A collection of Textual dialogs.
 Dialogs included so far:
 
 - Generic `MessageDialog` - shows messages to the user
+- `OpenFileDialog` - gives the user a way to select a file to open
+- `QuitDialog` - ask the user if they want to quit the application
 - `SaveFileDialog` - gives the user a way to select a location to save a file
 - `SingleChoiceDialog` - gives the user a series of choices to pick from
+- `SingleColorPickerDialog` - gives the user a way to select a color
 - `TextEntryDialog` - ask the user a question and get their answer using an `Input` widget
 
 ## Installation
@@ -101,7 +104,7 @@ from textual_cogs.dialogs import SaveFileDialog
 
 
 class DialogApp(App):
-    def on_mount(self) -> ComposeResult:        
+    def on_mount(self) -> ComposeResult:
         self.push_screen(SaveFileDialog())
 
 if __name__ == "__main__":
