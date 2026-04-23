@@ -44,7 +44,7 @@ class OpenFileDialog(ModalScreen[str | bool]):
 
     #save_dialog{
         width: 50%;
-        height: 25;
+        height: 30;
         border: thick $background 70%;
         background: $surface-lighten-1;
         Button {
@@ -57,12 +57,9 @@ class OpenFileDialog(ModalScreen[str | bool]):
         height: auto;
     }
 
-    Label {
-        margin: 1;
-    }
-
     FilterableDirectoryTree {
         margin: 1;
+        border: round green;
     }
 
     Input {
@@ -98,8 +95,8 @@ class OpenFileDialog(ModalScreen[str | bool]):
         """
         Create the widgets for the SaveFileDialog's user interface
         """
-        yield Header()
         yield Vertical(
+            Header(),
             Label(f"Folder name: {self.root}", id="folder"),
             FilterableDirectoryTree(self.root, file_pattern="*.*", id="directory"),
             Input(placeholder="File name", id="filename"),
