@@ -19,7 +19,7 @@ class SaveFileDialog(ModalScreen[str | bool]):
 
     #save_dialog{
         width: 50%;
-        height: 25;
+        height: 30;
         border: thick $background 70%;
         background: $surface-lighten-1;
         Button {
@@ -65,8 +65,8 @@ class SaveFileDialog(ModalScreen[str | bool]):
         """
         Create the widgets for the SaveFileDialog's user interface
         """
-        yield Header()
         yield Vertical(
+            Header(),
             Label(f"Folder name: {self.root}", id="folder"),
             DirectoryTree(self.root, id="directory"),
             Input(placeholder="filename.txt", id="filename"),
