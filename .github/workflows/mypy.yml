@@ -1,0 +1,23 @@
+name: Mypy
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+jobs:
+  build:
+    if: github.event.pull_request.draft == false
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mypy==1.20.2 types-requests
+      # Include `--format=github` to enable automatic inline annotations.
+      - name: Run Mypy
+        run: mypy
+        continue-on-error: false

@@ -4,10 +4,11 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Center, Horizontal, Vertical
 from textual.screen import ModalScreen
+from textual.visual import VisualType
 from textual.widgets import Button, Header, Label, OptionList
 
 
-class SingleChoiceDialog(ModalScreen):
+class SingleChoiceDialog(ModalScreen[bool | VisualType]):
     DEFAULT_CSS = """
     SingleChoiceDialog {
         align: center middle;
@@ -45,7 +46,7 @@ class SingleChoiceDialog(ModalScreen):
         self.message = message
         self.title = title
         self.choices = choices
-        self.current_option = None
+        self.current_option: VisualType | None = None
 
     def compose(self) -> ComposeResult:
         """

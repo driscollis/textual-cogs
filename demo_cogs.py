@@ -1,6 +1,7 @@
 # demo_cogs.py
 
 import platform
+from typing import Literal
 
 from textual_cogs import icons, labels
 from textual_cogs.dialogs import MessageDialog, OpenFileDialog, SaveFileDialog
@@ -16,7 +17,7 @@ from textual.containers import Center, Vertical
 from textual.widgets import Button, TabbedContent, TabPane
 
 
-class DemoCogsApp(App):
+class DemoCogsApp(App[None]):
     CSS_PATH = "demo_cogs.tcss"
 
     def compose(self) -> ComposeResult:
@@ -75,13 +76,15 @@ class DemoCogsApp(App):
             self.notify("You cancelled saving the file!")
 
     def single_choice_callback(self, choice: str) -> None:
-        severity = "information" if choice == "Python" else "error"
+        severity: Literal["information", "error"] = (
+            "information" if choice == "Python" else "error"
+        )
         self.notify(f"You picked: '{choice}'", severity=severity)
 
     def single_color_callback(self, color: str) -> None:
         self.notify(f"You chose the color: '{color}'")
 
-    def text_entry_callback(self, entry: str) -> None:
+    def text_entry_callback(self, entry: str | bool) -> None:
         self.notify(f"You entered: '{entry}'")
 
     @on(Button.Pressed, "#info-msg")
@@ -137,14 +140,14 @@ class DemoCogsApp(App):
 
     @on(Button.Pressed, "#open-file-dlg")
     def on_open_file_dialog(self, event: Button.Pressed) -> None:
-        self.push_screen(OpenFileDialog(), self.open_file_dialog_callback)
+        self.push_screen(OpenFileDialog(), self.open_file_dialog_callback)  # type: ignore
 
     @on(Button.Pressed, "#save-file-dlg")
     def on_save_file_dialog(self, event: Button.Pressed) -> None:
         if "Windows" in platform.platform():
-            self.push_screen(SaveFileDialog(root="C:/"), self.save_file_dialog_callback)
+            self.push_screen(SaveFileDialog(root="C:/"), self.save_file_dialog_callback)  # type: ignore
         else:
-            self.push_screen(SaveFileDialog(), self.save_file_dialog_callback)
+            self.push_screen(SaveFileDialog(), self.save_file_dialog_callback)  # type: ignore
 
     @on(Button.Pressed, "#single-choice-dlg")
     def on_single_choice_dialog(self, event: Button.Pressed) -> None:
@@ -155,18 +158,18 @@ class DemoCogsApp(App):
                 title="Choose Language",
                 choices=choices,
             ),
-            self.single_choice_callback,
+            self.single_choice_callback,  # type: ignore
         )
 
     @on(Button.Pressed, "#single-color-picker-dlg")
     def on_color_picked(self, event: Button.Pressed) -> None:
-        self.push_screen(SingleColorPickerDialog(), self.single_color_callback)
+        self.push_screen(SingleColorPickerDialog(), self.single_color_callback)  # type: ignore
 
     @on(Button.Pressed, "#text-entry-dlg")
     def on_text_entry_dialog(self, event: Button.Pressed) -> None:
         self.push_screen(
             TextEntryDialog("Enter your favorite food:", title="Question"),
-            self.text_entry_callback,
+            self.text_entry_callback,  # type: ignore
         )
 
 

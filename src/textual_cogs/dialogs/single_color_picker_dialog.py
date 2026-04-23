@@ -8,7 +8,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Header, Static, Select
 
 
-class SingleColorPickerDialog(ModalScreen):
+class SingleColorPickerDialog(ModalScreen[str | bool | None]):
     DEFAULT_CSS = """
     SingleColorPickerDialog {
         align: center middle;
@@ -40,7 +40,7 @@ class SingleColorPickerDialog(ModalScreen):
     ) -> None:
         super().__init__(name, id, classes)
         self.title = "Color Picker"
-        self.current_color = None
+        self.current_color: str | None = None
 
     def compose(self) -> ComposeResult:
         colors = list(COLOR_NAME_TO_RGB.keys())
@@ -62,8 +62,8 @@ class SingleColorPickerDialog(ModalScreen):
         )
 
     @on(Select.Changed, "#simple-color-picker")
-    def on_selection_changed(self, event: Select.Changed):
-        self.current_color = event.select.value
+    def on_selection_changed(self, event: Select.Changed) -> None:
+        self.current_color = str(event.select.value) if self.current_color else None
         self.log.info(f"Selection -> {event.select.value}")
         static = self.query_one("#chosen-color")
         static.styles.background = self.current_color
