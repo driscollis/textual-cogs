@@ -83,7 +83,7 @@ class OpenFileDialog(ModalScreen):
         classes: str | None = None,
     ) -> None:
         super().__init__(name, id, classes)
-        self.title = "Save File"
+        self.title = "Choose a File"
         self.root = root
         self.folder = root
         if file_types is None:
