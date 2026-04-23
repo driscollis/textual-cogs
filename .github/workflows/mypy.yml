@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mypy==1.20.2 types-requests
+          pip install mypy==1.20.2 rich textual
       # Include `--format=github` to enable automatic inline annotations.
       - name: Run Mypy
         run: mypy .
