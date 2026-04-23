@@ -8,7 +8,7 @@ from textual.visual import VisualType
 from textual.widgets import Button, Header, Label, OptionList
 
 
-class SingleChoiceDialog(ModalScreen[bool | VisualType]):
+class SingleChoiceDialog(ModalScreen[bool]):
     DEFAULT_CSS = """
     SingleChoiceDialog {
         align: center middle;
@@ -81,7 +81,7 @@ class SingleChoiceDialog(ModalScreen[bool | VisualType]):
         """
         Return the user's choice back to the calling application and dismiss the dialog
         """
-        self.dismiss(self.current_option)
+        self.dismiss(self.current_option)  # type: ignore
 
     @on(Button.Pressed, "#single-choice-cancel")
     def on_cancel(self, event: Button.Pressed) -> None:
