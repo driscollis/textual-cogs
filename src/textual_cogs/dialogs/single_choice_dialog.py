@@ -4,10 +4,11 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Center, Horizontal, Vertical
 from textual.screen import ModalScreen
+from textual.visual import VisualType
 from textual.widgets import Button, Header, Label, OptionList
 
 
-class SingleChoiceDialog(ModalScreen):
+class SingleChoiceDialog(ModalScreen[bool]):
     DEFAULT_CSS = """
     SingleChoiceDialog {
         align: center middle;
@@ -45,7 +46,7 @@ class SingleChoiceDialog(ModalScreen):
         self.message = message
         self.title = title
         self.choices = choices
-        self.current_option = None
+        self.current_option: VisualType | None = None
 
     def compose(self) -> ComposeResult:
         """
@@ -80,7 +81,7 @@ class SingleChoiceDialog(ModalScreen):
         """
         Return the user's choice back to the calling application and dismiss the dialog
         """
-        self.dismiss(self.current_option)
+        self.dismiss(self.current_option)  # type: ignore
 
     @on(Button.Pressed, "#single-choice-cancel")
     def on_cancel(self, event: Button.Pressed) -> None:

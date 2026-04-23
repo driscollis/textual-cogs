@@ -2,13 +2,14 @@
 
 from textual_cogs import labels
 
+from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import Center, Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Header, Label
 
 
-class MessageDialog(ModalScreen):
+class MessageDialog(ModalScreen[bool | None]):
     DEFAULT_CSS = """
     MessageDialog {
         align: center middle;
@@ -40,8 +41,8 @@ class MessageDialog(ModalScreen):
         self,
         message: str,
         title: str = "",
-        flags: list | None = None,
-        icon: str = "",
+        flags: list[str] | None = None,
+        icon: str | Text = "",
         name: str | None = None,
         id: str | None = None,
         classes: str | None = None,
@@ -50,10 +51,10 @@ class MessageDialog(ModalScreen):
         self.message = message
         self.title = title
         if flags is None:
-            self.flags = []
+            self.flags: list[str] = []
         else:
             self.flags = flags
-        self.buttons = None
+        self.buttons: list[str] = []
         self.icon = icon
 
         self.verify_flags()

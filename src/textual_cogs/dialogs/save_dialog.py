@@ -1,6 +1,7 @@
 # save_dialog.py
 
 import os
+from pathlib import Path
 
 from textual import on
 from textual.app import ComposeResult
@@ -9,7 +10,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, DirectoryTree, Header, Input, Label
 
 
-class SaveFileDialog(ModalScreen):
+class SaveFileDialog(ModalScreen[str | bool]):
     DEFAULT_CSS = """
     SaveFileDialog {
     align: center middle;
@@ -50,7 +51,7 @@ class SaveFileDialog(ModalScreen):
 
     def __init__(
         self,
-        root="/",
+        root: Path = Path("/"),
         name: str | None = None,
         id: str | None = None,
         classes: str | None = None,
@@ -81,7 +82,7 @@ class SaveFileDialog(ModalScreen):
         """
         Focus the input widget so the user can name the file
         """
-        self.query_one("#filename").focus()
+        self.query_one("#filename", Input).focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """
@@ -89,7 +90,7 @@ class SaveFileDialog(ModalScreen):
         """
         event.stop()
         if event.button.id == "save_file":
-            filename = self.query_one("#filename").value
+            filename = self.query_one("#filename", Input).value
             full_path = os.path.join(self.folder, filename)
             self.dismiss(full_path)
         else:
@@ -101,4 +102,4 @@ class SaveFileDialog(ModalScreen):
         Called when the DirectorySelected message is emitted from the DirectoryTree
         """
         self.folder = event.path
-        self.query_one("#folder").update(f"Folder name: {self.folder}")
+        self.query_one("#folder", Label).update(f"Folder name: {self.folder}")

@@ -7,7 +7,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Header, Input, Label
 
 
-class TextEntryDialog(ModalScreen):
+class TextEntryDialog(ModalScreen[str | bool]):
     """
     Display a dialog that allows the user to enter some text and return it
     """
@@ -76,7 +76,7 @@ class TextEntryDialog(ModalScreen):
         """
         Return the user's entry back to the calling application and dismiss the dialog
         """
-        answer = self.query_one("#answer").value
+        answer = self.query_one("#answer", Input).value
         self.dismiss(answer)
 
     @on(Button.Pressed, "#text-entry-cancel")

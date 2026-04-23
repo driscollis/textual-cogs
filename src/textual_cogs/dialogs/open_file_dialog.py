@@ -13,7 +13,7 @@ from textual.widgets import Button, DirectoryTree, Header, Input, Label, Select
 
 
 class FilterableDirectoryTree(DirectoryTree):
-    def __init__(self, path: str, *, file_pattern: str = "*.*", **kwargs):
+    def __init__(self, path: str, *, file_pattern: str = "*.*", **kwargs) -> None:  # type: ignore
         super().__init__(path, **kwargs)
         self.file_pattern = file_pattern
 
@@ -35,7 +35,7 @@ class FilterableDirectoryTree(DirectoryTree):
         return [path for path in paths if path.is_dir() or fnmatch(path.name, pattern)]
 
 
-class OpenFileDialog(ModalScreen):
+class OpenFileDialog(ModalScreen[str | bool]):
     DEFAULT_CSS = """
     OpenFileDialog {
     align: center middle;
@@ -76,7 +76,7 @@ class OpenFileDialog(ModalScreen):
 
     def __init__(
         self,
-        root="/",
+        root: str = "/",
         name: str | None = None,
         file_types: list[tuple[str, str]] | None = None,
         id: str | None = None,
@@ -116,7 +116,7 @@ class OpenFileDialog(ModalScreen):
         """
         Focus the input widget so the user can name the file
         """
-        self.query_one("#filename").focus()
+        self.query_one("#filename", Input).focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """
@@ -124,7 +124,7 @@ class OpenFileDialog(ModalScreen):
         """
         event.stop()
         if event.button.id == "open_file":
-            filename = self.query_one("#filename").value
+            filename = self.query_one("#filename", Input).value
             full_path = os.path.join(self.folder, filename)
             self.dismiss(full_path)
         else:
@@ -133,7 +133,7 @@ class OpenFileDialog(ModalScreen):
     @on(Select.Changed, "#file_filter")
     def on_filter_changed(self, event: Select.Changed) -> None:
         tree = self.query_one(FilterableDirectoryTree)
-        value = event.value
+        value = str(event.value)
         if not isinstance(value, str):
             value = "*.*"
         tree.set_filter(value)
@@ -141,10 +141,10 @@ class OpenFileDialog(ModalScreen):
     @on(DirectoryTree.DirectorySelected)
     def on_directory_selection(self, event: DirectoryTree.DirectorySelected) -> None:
         self.folder = str(event.path)
-        self.query_one("#folder").update(f"Folder name: {self.folder}")
+        self.query_one("#folder", Label).update(f"Folder name: {self.folder}")
 
     @on(DirectoryTree.FileSelected)
     def on_file_selected(self, event: DirectoryTree.FileSelected) -> None:
         self.folder = str(event.path.parent)
-        self.query_one("#folder").update(f"Folder name: {self.folder}")
+        self.query_one("#folder", Label).update(f"Folder name: {self.folder}")
         self.query_one("#filename", Input).value = event.path.name
