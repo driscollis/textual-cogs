@@ -4,7 +4,7 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
-from textual.widgets import Button, Header, DirectoryTree, Label
+from textual.widgets import Button, Header, DirectoryTree, Label, Tree
 
 
 class DirectoryOnlyTree(DirectoryTree):
@@ -52,13 +52,28 @@ class DirectoryDialog(ModalScreen[str | bool]):
     def on_mount(self) -> None:
         self.title = "Choose a directory:"
 
+    def _set_folder(self, path: str) -> None:
+        """Keep selected folder and label in sync."""
+        if path == "/" and "Windows" in platform.platform():
+            path = "C:\\"
+        else:
+            path = str(path)
+
+        self.folder = path
+        self.query_one("#directory-label", Label).update(f"Folder: {self.folder}")
+
     @on(DirectoryTree.DirectorySelected)
     def on_directory_selected(self, event: DirectoryTree.DirectorySelected) -> None:
         """
         Event handler for when a directory is selected in the DirectoryTree.
         """
-        self.folder = str(event.path)
-        self.query_one("#directory-label", Label).update(f"Folder: {self.folder}")
+        self._set_folder(str(event.path))
+
+    @on(Tree.NodeHighlighted, "#directory-tree")
+    def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:
+        """DirectoryTree doesn't emit DirectorySelected for the root node (data is None)."""
+        if event.node.is_root:
+            self._set_folder(self.root_dir)
 
     @on(Button.Pressed, "#directory-ok")
     def on_ok_button(self, event: Button.Pressed) -> None:
@@ -66,6 +81,9 @@ class DirectoryDialog(ModalScreen[str | bool]):
         Event handler for when the OK button is pressed. Dismisses the dialog and returns the selected directory.
         """
         event.stop()
+        tree = self.query_one("#directory-tree", DirectoryOnlyTree)
+        if tree.cursor_node is not None and tree.cursor_node.is_root:
+            self._set_folder(self.root_dir)
         self.dismiss(self.folder)
 
     @on(Button.Pressed, "#directory-cancel")
