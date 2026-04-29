@@ -20,13 +20,36 @@ class DirectoryOnlyTree(DirectoryTree):
 
 
 class DirectoryDialog(ModalScreen[str | bool]):
-    # DEFAULT_CSS = """
-    # DirectoryDialog {
-    #     align: center middle;
-    #     background: $primary-lighten-1 30%;
-    # }
-    # """
-    CSS_PATH = "directory_dialog.tcss"
+    DEFAULT_CSS = """
+    DirectoryDialog {
+        align: center middle;
+        background: $primary-lighten-1 30%;
+
+        #directory-dialog{
+            width: 50%;
+            height: 30;
+            border: thick $background 70%;
+            background: $surface-lighten-1;
+            Button {
+                width: 32%;
+                margin: 1;
+            }
+        }
+
+        Horizontal {
+            height: auto;
+        }
+
+        DirectoryOnlyTree {
+            margin: 1;
+            border: round green;
+        }
+
+        Label {
+            margin: 1;
+        }
+    }
+    """
 
     def __init__(self, root_dir: str = "/", *args: tuple, **kwargs: dict):
         super().__init__(*args, **kwargs)
@@ -74,7 +97,9 @@ class DirectoryDialog(ModalScreen[str | bool]):
 
     @on(Tree.NodeHighlighted, "#directory-tree")
     def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:
-        """DirectoryTree doesn't emit DirectorySelected for the root node (data is None)."""
+        """
+        DirectoryTree doesn't emit DirectorySelected for the root node (data is None).
+        """
         if event.node.is_root:
             self._set_folder(self.root_dir)
 
