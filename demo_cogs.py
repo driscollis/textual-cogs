@@ -159,7 +159,7 @@ class DemoCogsApp(App[None]):
 
     @on(Button.Pressed, "#directory-dlg")
     def on_directory_dialog(self, event: Button.Pressed) -> None:
-        self.push_screen(DirectoryDialog(), self.directory_dialog_callback)
+        self.push_screen(DirectoryDialog(), self.directory_dialog_callback)  # type: ignore
 
     @on(Button.Pressed, "#single-choice-dlg")
     def on_single_choice_dialog(self, event: Button.Pressed) -> None:

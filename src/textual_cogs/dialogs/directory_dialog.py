@@ -1,5 +1,6 @@
 import platform
 from pathlib import Path
+from collections.abc import Iterable
 
 from textual import on
 from textual.app import ComposeResult
@@ -15,7 +16,7 @@ class DirectoryOnlyTree(DirectoryTree):
     Subclass of DirectoryTree that only shows directories.
     """
 
-    def filter_paths(self, paths):
+    def filter_paths(self, paths: Iterable[Path]) -> Iterable[Path]:
         return [path for path in paths if path.is_dir()]
 
 
@@ -51,8 +52,14 @@ class DirectoryDialog(ModalScreen[str | bool]):
     }
     """
 
-    def __init__(self, root_dir: str = "/", *args: tuple, **kwargs: dict):
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self,
+        root_dir: str = "/",
+        name: str | None = None,
+        id: str | None = None,
+        classes: str | None = None,
+    ) -> None:
+        super().__init__(name, id, classes)
         self.root_dir = root_dir
         self.folder = root_dir
 
@@ -98,7 +105,7 @@ class DirectoryDialog(ModalScreen[str | bool]):
         self._set_folder(str(event.path))
 
     @on(Tree.NodeHighlighted, "#directory-tree")
-    def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:
+    def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:  # type: ignore
         """
         DirectoryTree doesn't emit DirectorySelected for the root node (data is None).
         """
@@ -131,7 +138,8 @@ class DirectoryDialog(ModalScreen[str | bool]):
         """
         # Ask the user for a new folder name
         self.app.push_screen(
-            TextEntryDialog("Enter folder name", "New Folder"), self.create_new_folder
+            TextEntryDialog("Enter folder name", "New Folder"),
+            self.create_new_folder,  # type: ignore
         )
 
     def create_new_folder(self, folder_path: str) -> None:
