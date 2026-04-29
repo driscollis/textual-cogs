@@ -79,7 +79,9 @@ class DirectoryDialog(ModalScreen[str | bool]):
         self.title = "Choose a directory:"
 
     def _set_folder(self, path: str) -> None:
-        """Keep selected folder and label in sync."""
+        """
+        Keep selected folder and label in sync.
+        """
         if path == "/" and "Windows" in platform.platform():
             path = "C:\\"
         else:
@@ -106,7 +108,8 @@ class DirectoryDialog(ModalScreen[str | bool]):
     @on(Button.Pressed, "#directory-ok")
     def on_ok_button(self, event: Button.Pressed) -> None:
         """
-        Event handler for when the OK button is pressed. Dismisses the dialog and returns the selected directory.
+        Event handler for when the OK button is pressed. Dismisses the dialog and returns the
+        selected directory.
         """
         tree = self.query_one("#directory-tree", DirectoryOnlyTree)
         if tree.cursor_node is not None and tree.cursor_node.is_root:
@@ -123,7 +126,8 @@ class DirectoryDialog(ModalScreen[str | bool]):
     @on(Button.Pressed, "#make-new-folder")
     def on_make_new_folder(self, event: Button.Pressed) -> None:
         """
-        Event handler for when the Make New Folder button is pressed. Creates a new folder in the currently selected directory.
+        Event handler for when the Make New Folder button is pressed. Creates a new folder in the
+        currently selected directory.
         """
         # Ask the user for a new folder name
         self.app.push_screen(
