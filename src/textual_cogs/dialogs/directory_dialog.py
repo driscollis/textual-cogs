@@ -1,10 +1,13 @@
 import platform
+from pathlib import Path
 
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Header, DirectoryTree, Label, Tree
+
+from textual_cogs.dialogs.text_entry_dialog import TextEntryDialog
 
 
 class DirectoryOnlyTree(DirectoryTree):
@@ -80,7 +83,6 @@ class DirectoryDialog(ModalScreen[str | bool]):
         """
         Event handler for when the OK button is pressed. Dismisses the dialog and returns the selected directory.
         """
-        event.stop()
         tree = self.query_one("#directory-tree", DirectoryOnlyTree)
         if tree.cursor_node is not None and tree.cursor_node.is_root:
             self._set_folder(self.root_dir)
@@ -91,5 +93,27 @@ class DirectoryDialog(ModalScreen[str | bool]):
         """
         Event handler for when the Cancel button is pressed. Dismisses the dialog and returns False.
         """
-        event.stop()
         self.dismiss(False)
+
+    @on(Button.Pressed, "#make-new-folder")
+    def on_make_new_folder(self, event: Button.Pressed) -> None:
+        """
+        Event handler for when the Make New Folder button is pressed. Creates a new folder in the currently selected directory.
+        """
+        # Ask the user for a new folder name
+        self.app.push_screen(
+            TextEntryDialog("Enter folder name", "New Folder"), self.create_new_folder
+        )
+
+    def create_new_folder(self, folder_path: str) -> None:
+        """
+        Callback function for when the user enters a new folder name.
+
+        Creates the folder and refreshes the DirectoryTree.
+        """
+        if folder_path:
+            full_path = Path(self.folder) / folder_path
+            self.notify(f"Creating folder: {full_path}")
+            Path(full_path).mkdir(exist_ok=True)
+            tree = self.query_one("#directory-tree", DirectoryOnlyTree)
+            tree.reload()
