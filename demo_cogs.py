@@ -4,7 +4,8 @@ import platform
 from typing import Literal
 
 from textual_cogs import icons, labels
-from textual_cogs.dialogs import MessageDialog, OpenFileDialog, SaveFileDialog
+from textual_cogs.dialogs import MessageDialog
+from textual_cogs.dialogs import DirectoryDialog, OpenFileDialog, SaveFileDialog
 from textual_cogs.dialogs import (
     SingleChoiceDialog,
     SingleColorPickerDialog,
@@ -38,6 +39,7 @@ class DemoCogsApp(App[None]):
                     Center(
                         Button("OpenFileDialog", id="open-file-dlg"),
                         Button("SaveFileDialog", id="save-file-dlg"),
+                        Button("DirectoryDialog", id="directory-dlg"),
                     ),
                     id="file_dlg_layout",
                 )
@@ -59,6 +61,12 @@ class DemoCogsApp(App[None]):
             False: "No or Cancel",
         }
         self.notify(f"You pressed '{choices[button_choice]}'")
+
+    def directory_dialog_callback(self, directory: str | bool) -> None:
+        if directory:
+            self.notify(f"You chose the directory: '{directory}'")
+        else:
+            self.notify("You cancelled choosing a directory!")
 
     def open_file_dialog_callback(self, file: str | bool) -> None:
         """
@@ -148,6 +156,10 @@ class DemoCogsApp(App[None]):
             self.push_screen(SaveFileDialog(root="C:/"), self.save_file_dialog_callback)  # type: ignore
         else:
             self.push_screen(SaveFileDialog(), self.save_file_dialog_callback)  # type: ignore
+
+    @on(Button.Pressed, "#directory-dlg")
+    def on_directory_dialog(self, event: Button.Pressed) -> None:
+        self.push_screen(DirectoryDialog(), self.directory_dialog_callback)  # type: ignore
 
     @on(Button.Pressed, "#single-choice-dlg")
     def on_single_choice_dialog(self, event: Button.Pressed) -> None:
