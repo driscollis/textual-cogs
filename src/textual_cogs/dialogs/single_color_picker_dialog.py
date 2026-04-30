@@ -15,11 +15,10 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
         background: $primary 30%;
 
         #simple-color-dlg {
-            width: 85;
+            width: 50%;
             height: 18;
             border: thick $background 70%;
             content-align: center middle;
-            margin: 1;
         }
 
         Button {
@@ -27,10 +26,17 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
             margin: 1;
         }
 
+        Select {
+            margin: 1;
+        }
+
         Static {
             width: 100%;
             height:5;
-            border: round green;
+        }
+
+        Horizontal {
+            height: auto;
         }
     }
     """
