@@ -4,7 +4,8 @@
 
 A collection of Textual dialogs.
 
-![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/cog_demo.gif)
+<img width="1603" height="723" alt="textual_cogs_demo_0 0 5" src="https://github.com/user-attachments/assets/653bc50b-f2f4-4b82-bffa-e9b767806717" />
+
 
 Dialogs included so far:
 
@@ -114,4 +115,5 @@ if __name__ == "__main__":
 
 When you run this code, you will see the following:
 
-![screenshot](https://github.com/driscollis/textual-cogs/blob/main/images/save_file_dialog.jpg)
+<img width="1490" height="735" alt="image" src="https://github.com/user-attachments/assets/e6b815d5-0059-484f-a44b-3152956fd8a8" />
+
