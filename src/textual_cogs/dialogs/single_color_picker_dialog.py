@@ -30,7 +30,7 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
             margin: 1;
         }
 
-        Static {
+        #chosen-color {
             width: 100%;
             height:5;
         }
