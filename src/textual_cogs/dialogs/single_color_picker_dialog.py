@@ -15,11 +15,10 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
         background: $primary 30%;
 
         #simple-color-dlg {
-            width: 85;
+            width: 50%;
             height: 18;
             border: thick $background 70%;
             content-align: center middle;
-            margin: 1;
         }
 
         Button {
@@ -27,11 +26,18 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
             margin: 1;
         }
 
-        Static {
-                    width: 100%;
-                    height:5;
+        Select {
+            margin: 1;
+        }
 
-            }
+        Static {
+            width: 100%;
+            height:5;
+        }
+
+        Horizontal {
+            height: auto;
+        }
     }
     """
 
@@ -47,6 +53,7 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
         colors.sort()
         static = Static(id="chosen-color")
         static.styles.background = None
+        static.border_title = "Chosen Color"
 
         yield Vertical(
             Header(),
@@ -63,9 +70,14 @@ class SingleColorPickerDialog(ModalScreen[str | bool | None]):
 
     @on(Select.Changed, "#simple-color-picker")
     def on_selection_changed(self, event: Select.Changed) -> None:
-        self.current_color = str(event.select.value) if self.current_color else None
-        self.log.info(f"Selection -> {event.select.value}")
-        static = self.query_one("#chosen-color")
+        """
+        Event handler for when the user selects a color from the Select widget.
+        """
+        current_choice = str(event.select.value)
+        self.current_color = (
+            str(event.select.value) if self.current_color != current_choice else None
+        )
+        static = self.query_one("#chosen-color", Static)
         static.styles.background = self.current_color
 
     @on(Button.Pressed, "#simple-color-ok")
